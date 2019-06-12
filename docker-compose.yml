@@ -1,0 +1,36 @@
+# Versão do docker compose.
+version: '3'
+
+# Quais containers (services) que o docker compose vai subir.
+services:
+
+  # Nome do serviço.
+  e-plus:
+
+    # A aplicação está baseada na imagem do Node.js na versão 10.
+    image: node:10
+
+    # Nome do container.
+    container_name: e-plus
+    networks:
+      - base
+
+    # Mapeando a porta 80 do nosso host, para a porta 3000 do container. (Padrão do Nuxt.js)
+    ports:
+      - "80:3000"
+    working_dir: /app
+
+    # Comandos a serem executados ao subir o container.
+    command: bash -c "yarn && yarn run dev"
+
+    # Arquivos do host que devem ser copiados para o container.
+    volumes:
+      - ./e-plus:/app
+
+    # Variaveis de ambiente
+    environment:
+      NODE_ENV: "development"
+      HOST: "0.0.0.0"
+
+networks:
+  base:
